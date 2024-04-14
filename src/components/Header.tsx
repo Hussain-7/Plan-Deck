@@ -7,6 +7,7 @@ import {
 import Image from "next/image";
 import React from "react";
 import Avatar from "react-avatar";
+import Suggestion from "./Suggestion";
 
 type Props = {};
 
@@ -39,6 +40,7 @@ const Header = (props: Props) => {
           <Avatar name="Hussain Rizvi" round color="#338fdd" size="50" />
         </div>
       </div>
+      <Suggestion />
     </header>
   );
 };
