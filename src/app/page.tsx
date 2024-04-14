@@ -1,9 +1,11 @@
-import Image from "next/image";
+import Board from "@/components/Board";
+import Header from "@/components/Header";
 
 export default function Home() {
   return (
     <main>
-      <h1>Todo app</h1>
+      <Header />
+      <Board />
     </main>
   );
 }
