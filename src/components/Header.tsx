@@ -14,9 +14,10 @@ type Props = {};
 const Header = (props: Props) => {
   return (
     <header>
-      <div className="flex flex-col md:flex-row items-center p-5 bg-gray-500/10 rounded-b-2xl">
+      <div className="flex flex-col md:flex-row items-center p-5 bg-gray-500/10 rounded-b-2xl z-0">
+        <div className="absolute top-0 left-0 w-full h-96 bg-gradient-to-br from-pink-400 to-[#2455c4] rounded-md filter blur-3xl opacity-50 -z-50" />
         <Image
-          src="/logo-final.png"
+          src="/logo-2.png"
           alt="logo"
           width={633}
           height={104}
@@ -37,7 +38,7 @@ const Header = (props: Props) => {
               Search
             </button>
           </form>
-          <Avatar name="Hussain Rizvi" round color="#338fdd" size="50" />
+          <Avatar name="Hussain Rizvi" round color="#2455c4" size="50" />
         </div>
       </div>
       <Suggestion />

@@ -10,9 +10,9 @@ const Suggestion = (props: Props) => {
     <div className="flex items-center justify-center px-5 py-2 md:py-5">
       <p
         className="flex items-center text-sm font-normal italic pr-5 shadow-xl rounded-xl w-fit 
-			bg-white max-w-3xl text-[#338fdd] p-2 md:p-4"
+			bg-white max-w-3xl text-[#2455c4] p-2 md:p-4"
       >
-        <UserCircleIcon className="inline-block h-10 w-10 text-[#338fdd] mr-1" />
+        <UserCircleIcon className="inline-block h-10 w-10 text-[#2455c4] mr-1" />
         GPT is summarising your tasks for the day...
       </p>
     </div>
