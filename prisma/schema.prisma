@@ -13,10 +13,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// Create a schema for todo
-
-
-
 model Todo {
   id        String  @id @default(cuid()) @map("_id")
   title     String
