@@ -16,10 +16,13 @@ const Board = (props: Props) => {
     getBoard();
   }, [getBoard]);
   console.log("board", board);
-  const handleOnDragEnd = (result: DropResult) => {};
+  const handleOnDragEnd = (result: DropResult) => {
+    const { destination, source, type } = result;
+    console.log("result", destination, source, type);
+  };
   return (
     <DragDropContext onDragEnd={handleOnDragEnd}>
-      <Droppable droppableId="board" direction="horizontal" type="group">
+      <Droppable droppableId="board" direction="horizontal" type="column">
         {(provided) => (
           <div
             className="grid grid-cols-1 md:grid-cols-3 gap-5 max-w-7xl mx-auto"
