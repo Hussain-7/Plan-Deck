@@ -1,5 +1,7 @@
 import React, { memo } from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
+import TodoCard from "../TodoCard";
+import { PlusCircleIcon } from "@heroicons/react/16/solid";
 
 type Props = {
   id: TypedColumn;
@@ -39,13 +41,33 @@ const Column = ({ id, todos, index }: Props) => {
                     {todos.length}
                   </span>
                 </h2>
-                {todos.map((todo, index) => (
-                  <div key={todo.$id} className="bg-white p-2 rounded mt-2">
-                    <h3 className="text-sm font-semibold">{todo.title}</h3>
-                    <p className="text-xs">{todo.description}</p>
-                  </div>
-                ))}
+                <div className="space-y-2">
+                  {todos.map((todo, index) => (
+                    <Draggable
+                      key={todo.$id}
+                      draggableId={todo.$id}
+                      index={index}
+                    >
+                      {(provided) => (
+                        <TodoCard
+                          todo={todo}
+                          index={index}
+                          id={id}
+                          innerRef={provided.innerRef}
+                          dragHandleProps={provided.dragHandleProps}
+                          draggableProps={provided.draggableProps}
+                        />
+                      )}
+                    </Draggable>
+                  ))}
+                </div>
                 {provided.placeholder}
+
+                <div className="flex items-center justify-end p-2">
+                  <button className="text-green-500 hover:text-green-600">
+                    <PlusCircleIcon className="h-8 w-8" />
+                  </button>
+                </div>
               </div>
             )}
           </Droppable>
