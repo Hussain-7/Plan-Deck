@@ -8,9 +8,10 @@ type Props = {};
 
 const Board = (props: Props) => {
   // Manage the state of board here
-  const [board, getBoard] = useBoardStore((state) => [
+  const [board, getBoard, setBoardState] = useBoardStore((state) => [
     state.board,
     state.getBoard,
+    state.setBoardState,
   ]);
   useEffect(() => {
     getBoard();
@@ -19,6 +20,22 @@ const Board = (props: Props) => {
   const handleOnDragEnd = (result: DropResult) => {
     const { destination, source, type } = result;
     console.log("result", destination, source, type);
+
+    if (!destination) return;
+
+    // Handle column drag
+    if (type === "column") {
+      console.log("board here", board, board.columns.entries());
+      const enteries = Array.from(board.columns.entries());
+      console.log("enteries", enteries);
+      const [removed] = enteries.splice(source.index, 1);
+      console.log("removed", removed);
+      enteries.splice(destination.index, 0, removed);
+      console.log("enteries", enteries);
+      const rearrangedColumns = new Map(enteries);
+      console.log("rearrangedColumns", rearrangedColumns);
+      setBoardState({ ...board, columns: rearrangedColumns });
+    }
   };
   return (
     <DragDropContext onDragEnd={handleOnDragEnd}>
