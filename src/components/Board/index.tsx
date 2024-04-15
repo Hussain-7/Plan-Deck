@@ -18,23 +18,75 @@ const Board = (props: Props) => {
   }, [getBoard]);
   console.log("board", board);
   const handleOnDragEnd = (result: DropResult) => {
-    const { destination, source, type } = result;
-    console.log("result", destination, source, type);
+    try {
+      const { destination, source, type } = result;
+      console.log("source: ", source);
+      console.log("destination: ", destination);
+      console.log("type: ", type);
 
-    if (!destination) return;
+      if (!destination) return;
 
-    // Handle column drag
-    if (type === "column") {
-      console.log("board here", board, board.columns.entries());
-      const enteries = Array.from(board.columns.entries());
-      console.log("enteries", enteries);
-      const [removed] = enteries.splice(source.index, 1);
-      console.log("removed", removed);
-      enteries.splice(destination.index, 0, removed);
-      console.log("enteries", enteries);
-      const rearrangedColumns = new Map(enteries);
-      console.log("rearrangedColumns", rearrangedColumns);
-      setBoardState({ ...board, columns: rearrangedColumns });
+      // Handle column drag
+      if (type === "column") {
+        const enteries = Array.from(board.columns.entries());
+        const [removed] = enteries.splice(source.index, 1);
+        enteries.splice(destination.index, 0, removed);
+        const rearrangedColumns = new Map(enteries);
+        setBoardState({ ...board, columns: rearrangedColumns });
+      }
+
+
+      // ** Handle Card Drag
+      const columns = Array.from(board.columns);
+      const startColOld = columns[Number(source.droppableId)];
+      const finishColOld = columns[Number(destination.droppableId)];
+      const startCol: Column = {
+        id: startColOld[0],
+        todos: startColOld[1].todos,
+      };
+      const finishCol: Column = {
+        id: finishColOld[0],
+        todos: finishColOld[1].todos,
+      };
+      if (!startCol || !finishCol) return;
+      // If drag and drop in exact same position then do nothing
+      if (startCol === finishCol && source.index === destination.index) return;
+
+
+      const newTodos = startCol.todos;
+      const [todoTodo] = newTodos.splice(source.index, 1);
+
+      if (startCol.id === finishCol.id) {
+        newTodos.splice(destination.index, 0, todoTodo);
+        const newCol = {
+          id: startCol.id,
+          todos: newTodos,
+        };
+        const newColumns = new Map(board.columns);
+        newColumns.set(startCol.id, newCol);
+        setBoardState({ ...board, columns: newColumns });
+      
+      } else {
+      
+        const finishTodos = finishCol.todos;
+        finishTodos.splice(destination.index, 0, todoTodo);
+        const newColumns = new Map(board.columns);
+        const newCol = {
+          id: startCol.id,
+          todos: newTodos,
+        };
+        newColumns.set(startCol.id, newCol);
+        newColumns.set(finishCol.id, {
+          id: finishCol.id,
+          todos: finishTodos,
+        });
+
+        // Update in DB
+
+        setBoardState({ ...board, columns: newColumns });
+      }
+    } catch (error) {
+      console.error("Error in handleOnDragEnd", error);
     }
   };
   return (
