@@ -9,16 +9,16 @@ interface Column {
   todos: Todo[];
 }
 
-interface Todo extends Models.Document {
+interface Todo {
   $id: string;
   $createdAt: string;
   title: string;
   status: TypedColumn;
   description?: string;
-  image?: string;
+  image?: Image;
 }
 
 interface Image {
-  buckedId: string;
+  bucketId: string;
   fileId: string;
 }
