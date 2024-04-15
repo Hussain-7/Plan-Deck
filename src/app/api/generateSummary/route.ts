@@ -19,8 +19,7 @@ export async function POST(req: Request) {
       },
       {
         role: "user",
-        content: `Hi there, provide a summary of the following todos. Count how many todos are in each category such as
-				To do, in progress,done, then tell the user to have a productive day!. In summary make it look like you are a person.Here's the data: ${JSON.stringify(
+        content: `Hi there, provide a summary of the following todos. I have 3 categories todo, inprogess and done. Remove mention of a category if no task are left in that category. Then tell the user to have a productive day!. In summary make it look like you are a person.Here's the data: ${JSON.stringify(
           todos
         )}
 				`,
