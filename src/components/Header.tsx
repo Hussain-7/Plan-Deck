@@ -26,7 +26,7 @@ const Header = (props: Props) => {
       setSearchString(nextValue);
     }, 500),
     []
-  ); // 500ms
+  ); // 500ms before searching
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value: nextValue } = event.target;

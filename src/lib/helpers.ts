@@ -1,4 +1,4 @@
-import { databases } from "./appwrite";
+import { databases } from "../config/appwrite";
 
 export const getTodosGroupedByColumn = async () => {
   const data = await databases.listDocuments(

@@ -1,4 +1,4 @@
-import { databases } from "@/lib/appwrite";
+import { databases } from "@/config/appwrite";
 import { getTodosGroupedByColumn } from "@/lib/helpers";
 import { create } from "zustand";
 
@@ -14,7 +14,7 @@ interface BoardState {
 export const useBoardStore = create<BoardState>((set) => ({
   searchString: "",
   setSearchString: (searchString) => set({ searchString }),
-  
+
   board: {
     columns: new Map<TypedColumn, Column>(),
   },
