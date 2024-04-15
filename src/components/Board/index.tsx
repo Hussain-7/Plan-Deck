@@ -35,7 +35,6 @@ const Board = (props: Props) => {
         setBoardState({ ...board, columns: rearrangedColumns });
       }
 
-
       // ** Handle Card Drag
       const columns = Array.from(board.columns);
       const startColOld = columns[Number(source.droppableId)];
@@ -52,25 +51,20 @@ const Board = (props: Props) => {
       // If drag and drop in exact same position then do nothing
       if (startCol === finishCol && source.index === destination.index) return;
 
-
       const newTodos = startCol.todos;
-      const [todoTodo] = newTodos.splice(source.index, 1);
+      const [todoToMove] = newTodos.splice(source.index, 1);
 
+      const newColumns = new Map(board.columns);
       if (startCol.id === finishCol.id) {
-        newTodos.splice(destination.index, 0, todoTodo);
+        newTodos.splice(destination.index, 0, todoToMove);
         const newCol = {
           id: startCol.id,
           todos: newTodos,
         };
-        const newColumns = new Map(board.columns);
         newColumns.set(startCol.id, newCol);
-        setBoardState({ ...board, columns: newColumns });
-      
       } else {
-      
         const finishTodos = finishCol.todos;
-        finishTodos.splice(destination.index, 0, todoTodo);
-        const newColumns = new Map(board.columns);
+        finishTodos.splice(destination.index, 0, todoToMove);
         const newCol = {
           id: startCol.id,
           todos: newTodos,
@@ -80,11 +74,10 @@ const Board = (props: Props) => {
           id: finishCol.id,
           todos: finishTodos,
         });
-
-        // Update in DB
-
-        setBoardState({ ...board, columns: newColumns });
       }
+
+      // Update in Db
+      setBoardState({ ...board, columns: newColumns });
     } catch (error) {
       console.error("Error in handleOnDragEnd", error);
     }
