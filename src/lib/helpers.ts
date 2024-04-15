@@ -41,3 +41,37 @@ export const getTodosGroupedByColumn = async () => {
     columns: sortedColumns,
   };
 };
+
+export const fetchSuggestion = async (board: Board) => {
+  const todos = formatTodosForAI(board);
+  console.log("Formated todos", todos);
+  const response = await fetch("/api/generateSummary", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ todos }),
+  });
+  const GPTdata = await response.json();
+  console.log("GPTdata", GPTdata);
+  const { content } = GPTdata;
+  return content;
+};
+
+const formatTodosForAI = (board: Board) => {
+  const todos = Array.from(board.columns.entries());
+  const flatArray = todos.reduce((map, [key, value]) => {
+    map[key] = value.todos;
+    return map;
+  }, {} as { [key in TypedColumn]: Todo[] });
+
+  const flatArrayCounted = Object.entries(flatArray).reduce(
+    (map, [key, value]) => {
+      map[key as TypedColumn] = value.length;
+      return map;
+    },
+    {} as { [key in TypedColumn]: number }
+  );
+
+  return flatArrayCounted;
+};

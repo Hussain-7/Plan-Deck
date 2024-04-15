@@ -10,13 +10,16 @@ import Avatar from "react-avatar";
 import Suggestion from "./Suggestion";
 import { useBoardStore } from "@/store/BoardStore";
 import debounce from "lodash.debounce";
+import useSWR from "swr";
+import { fetchSuggestion } from "@/lib/helpers";
 
 type Props = {};
 
 const Header = (props: Props) => {
   const [value, setValue] = useState("");
 
-  const [searchString, setSearchString] = useBoardStore((state) => [
+  const [board, searchString, setSearchString] = useBoardStore((state) => [
+    state.board,
     state.searchString,
     state.setSearchString,
   ]);
@@ -33,6 +36,23 @@ const Header = (props: Props) => {
     setValue(nextValue);
     debouncedSave(nextValue);
   };
+
+  const {
+    data: suggestion,
+    error,
+    isLoading,
+  } = useSWR(
+    board.columns.size !== 0 ? "/api/generateSummary" : null,
+    async () => {
+      const response = await fetchSuggestion(board);
+      return response;
+    },
+    {
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+    }
+  );
+  console.log("data", suggestion);
 
   return (
     <header>
@@ -67,7 +87,7 @@ const Header = (props: Props) => {
           <Avatar name="Hussain Rizvi" round color="#2455c4" size="50" />
         </div>
       </div>
-      <Suggestion />
+      <Suggestion suggestion={suggestion} loading={isLoading} />
     </header>
   );
 };

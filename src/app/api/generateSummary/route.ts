@@ -7,20 +7,20 @@ export async function POST(req: Request) {
   // communincate with open ai
 
   const response = await openai.chat.completions.create({
-    model: "gpt-3.5.turbo",
-    temperature: 0.8,
+    model: "gpt-3.5-turbo",
+    temperature: 0.9,
     n: 1,
     stream: false,
     messages: [
       {
         role: "system",
         content:
-          "When responding, welcome the user always as Mr.Hussain and say welcome to PlanDeck!. Limit the response to 200 characters",
+          "When responding, welcome the user always as Mr.Hussain and say welcome to PlanDeck!. Limit the response to 300 characters",
       },
       {
         role: "user",
         content: `Hi there, provide a summary of the following todos. Count how many todos are in each category such as
-				To do, in progress,done, then tell the user to have a productive day!. Here's the data: ${JSON.stringify(
+				To do, in progress,done, then tell the user to have a productive day!. In summary make it look like you are a person.Here's the data: ${JSON.stringify(
           todos
         )}
 				`,
@@ -28,5 +28,5 @@ export async function POST(req: Request) {
     ],
   });
   console.log("response is: ", response);
-  return NextResponse.json({ result: response.choices[0].message });
+  return NextResponse.json(response.choices[0].message);
 }
