@@ -8,11 +8,14 @@ type Props = {};
 
 const Board = (props: Props) => {
   // Manage the state of board here
-  const [board, getBoard, setBoardState] = useBoardStore((state) => [
-    state.board,
-    state.getBoard,
-    state.setBoardState,
-  ]);
+  const [board, getBoard, setBoardState, updateTodoInDB] = useBoardStore(
+    (state) => [
+      state.board,
+      state.getBoard,
+      state.setBoardState,
+      state.updateTodoInDB,
+    ]
+  );
   useEffect(() => {
     getBoard();
   }, [getBoard]);
@@ -74,6 +77,7 @@ const Board = (props: Props) => {
           id: finishCol.id,
           todos: finishTodos,
         });
+        updateTodoInDB(todoToMove, finishCol.id);
       }
 
       // Update in Db
