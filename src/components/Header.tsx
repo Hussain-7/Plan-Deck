@@ -5,18 +5,35 @@ import {
   UserCircleIcon,
 } from "@heroicons/react/16/solid";
 import Image from "next/image";
-import React from "react";
+import React, { useCallback, useState } from "react";
 import Avatar from "react-avatar";
 import Suggestion from "./Suggestion";
 import { useBoardStore } from "@/store/BoardStore";
+import debounce from "lodash.debounce";
 
 type Props = {};
 
 const Header = (props: Props) => {
+  const [value, setValue] = useState("");
+
   const [searchString, setSearchString] = useBoardStore((state) => [
     state.searchString,
     state.setSearchString,
   ]);
+  const debouncedSave = useCallback(
+    debounce((nextValue: string) => {
+      console.log("Debounced:", nextValue);
+      setSearchString(nextValue);
+    }, 500),
+    []
+  ); // 500ms
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value: nextValue } = event.target;
+    setValue(nextValue);
+    debouncedSave(nextValue);
+  };
+
   return (
     <header>
       <div className="flex flex-col md:flex-row items-center p-5 bg-gray-500/10 rounded-b-2xl">
@@ -30,7 +47,9 @@ const Header = (props: Props) => {
         />
         <div className="flex items-center space-x-5 flex-1 justify-end w-full">
           <form
-            action=""
+            onSubmit={(e) => {
+              e.preventDefault();
+            }}
             className="flex items-center space-x-5 bg-white rounded-md p-2 shadow-md flex-1 md:flex-initial"
           >
             <MagnifyingGlassIcon className="h-6 w-6 text-gray-400" />
@@ -38,8 +57,8 @@ const Header = (props: Props) => {
               type="text"
               placeholder="Search"
               className="flex-1 outline-none p-1 md:p-2"
-              value={searchString}
-              onChange={(e) => setSearchString(e.target.value)}
+              value={value}
+              onChange={handleChange}
             />
             <button hidden type="submit">
               Search
