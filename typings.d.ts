@@ -22,3 +22,5 @@ interface Image {
   bucketId: string;
   fileId: string;
 }
+
+

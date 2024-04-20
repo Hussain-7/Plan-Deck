@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import Modal from "@/components/AddTask/Modal";
 
 export const metadata: Metadata = {
   title: "Todo List Advanced",
@@ -13,6 +14,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <Modal />
       <body className="bg-[#F5F6F8]">{children}</body>
     </html>
   );

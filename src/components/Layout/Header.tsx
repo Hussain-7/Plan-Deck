@@ -7,7 +7,7 @@ import {
 import Image from "next/image";
 import React, { useCallback, useState } from "react";
 import Avatar from "react-avatar";
-import Suggestion from "./Suggestion";
+import Suggestion from "../Suggestion";
 import { useBoardStore } from "@/store/BoardStore";
 import debounce from "lodash.debounce";
 import useSWR from "swr";
@@ -42,7 +42,9 @@ const Header = (props: Props) => {
     error,
     isLoading,
   } = useSWR(
-    board.columns.size !== 0 ? "/api/generateSummary" : null,
+    board.columns.size !== 0 && process.env.NODE_ENV !== "development"
+      ? "/api/generateSummary"
+      : null,
     async () => {
       const response = await fetchSuggestion(board);
       return response;
