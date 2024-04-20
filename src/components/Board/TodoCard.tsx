@@ -47,8 +47,20 @@ const TodoCard = ({
       ref={innerRef}
       className="bg-white rounded-md space-y-2 drop-shadow-md"
     >
-      <div className="flex justify-between items-center p-5">
-        <p>{todo.title}</p>
+      <div className="flex justify-between items-center p-5 pr-3">
+        <div className="flex flex-col gap-4 items-start justify-center">
+          <p className="font-semibold">
+            {todo.title}
+            {todo?.description && (
+              <div className="w-[30%] border-b border-black/30 pt-2" />
+            )}
+          </p>
+          {/* h */}
+
+          {todo?.description && (
+            <p className="text-gray-400">{todo.description}</p>
+          )}
+        </div>
         <button
           onClick={() => deleteTask(index, todo, id)}
           className="text-red-500 hover:text-red-600"
@@ -56,6 +68,7 @@ const TodoCard = ({
           <XCircleIcon className="ml-5 h-6 w-6" />
         </button>
       </div>
+
       {imageUrl && (
         <div className="relative h-full w-full rounded-b-md">
           <Image
