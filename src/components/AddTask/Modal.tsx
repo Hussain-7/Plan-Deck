@@ -1,8 +1,11 @@
 "use client";
-import { useState, Fragment } from "react";
+import { useState, Fragment, useRef, FormEvent } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { useModalStore } from "@/store/ModalStore";
 import { useBoardStore } from "@/store/BoardStore";
+import TaskTypeRadioGroup from "./TaskTypeRadioGroup";
+import Image from "next/image";
+import { PhotoIcon } from "@heroicons/react/16/solid";
 
 function Modal() {
   const [isOpen, closeModal] = useModalStore((state) => [
@@ -13,9 +16,30 @@ function Modal() {
     state.newTaskInput,
     state.setTaskInput,
   ]);
+
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) =>
+    setTaskInput({
+      [e.target.name]: e.target.value,
+    });
+  const imagePickerRef = useRef<HTMLInputElement>(null);
+  console.log("taskInput", newTaskInput);
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!newTaskInput.title) return;
+    
+    console.log("Submitting Task", newTaskInput);
+    closeModal();
+  };
   return (
     <Transition appear show={isOpen} as={Fragment}>
-      <Dialog as="form" className="relative z-10" onClose={() => closeModal()}>
+      <Dialog
+        as="form"
+        className="relative z-10"
+        onClose={() => closeModal()}
+        onSubmit={handleSubmit}
+      >
         {/* This Child is for the backdrop */}
         <Transition.Child
           as={Fragment}
@@ -46,19 +70,91 @@ function Modal() {
               >
                 <Dialog.Title
                   as="h3"
-                  className="text-lg font-medium leading-6 text-gray-900 pb-2"
+                  className="text-lg font-medium leading-6 text-gray-900 pb-2 mb-2"
                 >
                   Add a Task
                 </Dialog.Title>
-                <div className="mt-2">
+
+                <div className="flex flex-col items-center justify-center gap-4">
+                  {/* Title */}
                   <input
+                    name="title"
                     type="text"
-                    value={newTaskInput}
-                    onChange={(e) => setTaskInput(e.target.value)}
+                    value={newTaskInput.title}
+                    onChange={handleInputChange}
                     placeholder="Enter a task here..."
                     className="w-full border border-gray-300 rounded-md outline-none p-5"
                   />
-                </div>{" "}
+
+                  {/* Task type radio button */}
+                  <TaskTypeRadioGroup />
+
+                  {/* Task Description */}
+                  <textarea
+                    name="description"
+                    value={newTaskInput.description}
+                    onChange={handleInputChange}
+                    placeholder="Enter a description here..."
+                    className="w-full border border-gray-300 rounded-md outline-none p-5"
+                  />
+
+                  {/* Image Uploader */}
+                  <div className="w-full">
+                    <button
+                      type="button"
+                      onClick={() => imagePickerRef.current?.click()}
+                      className="w-full border border-gray-300 rounded-md outline-none p-5 focus-visible:ring-2
+                  focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                    >
+                      <PhotoIcon className="h-6 w-6 mr-2 inline-block" />
+                      Upload Image
+                    </button>
+                    {newTaskInput.image && (
+                      <Image
+                        alt="Uploaded Image"
+                        width={200}
+                        height={200}
+                        className="w-full h-44 object-cover mt-2 filter hover:grayscale transition-all duration-150
+                        cursor-not-allowed
+                      "
+                        src={URL.createObjectURL(newTaskInput.image)}
+                        onClick={(e) =>
+                          setTaskInput({
+                            image: undefined,
+                          })
+                        }
+                      />
+                    )}
+                    <input
+                      type="file"
+                      ref={imagePickerRef}
+                      hidden
+                      onChange={(e) => {
+                        console.log(e.target.files![0].type);
+
+                        if (!e.target.files![0].type.startsWith("image"))
+                          return;
+
+                        setTaskInput({
+                          image: e.target.files![0],
+                        });
+                      }}
+                    />
+                  </div>
+                </div>
+
+                <div className="mt-4">
+                  <button
+                    type="submit"
+                    disabled={!newTaskInput.title}
+                    className="inline-flex justify-center rouned-md border border-transparent bg-blue-100 px-4 py-2
+                    text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2
+                    focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:bg-gray-100 disabled:text-gray-300
+                    disabled:cursor-not-allowed"
+                  >
+                    Add Task
+                  </button>
+                </div>
               </Dialog.Panel>
             </Transition.Child>
           </div>

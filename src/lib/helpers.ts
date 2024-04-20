@@ -1,5 +1,4 @@
-import { databases } from "../config/appwrite";
-
+import { databases, storage, ID } from "../config/appwrite";
 export const getTodosGroupedByColumn = async () => {
   const data = await databases.listDocuments(
     process.env.NEXT_PUBLIC_DATABASE_ID!,
@@ -74,4 +73,16 @@ const formatTodosForAI = (board: Board) => {
   );
 
   return flatArrayCounted;
+};
+
+// Upload image to appwrite
+export const uploadImage = async (file: File) => {
+  if (!file) return null;
+  const fileUploaded = await storage.createFile(
+    process.env.NEXT_PUBLIC_BUCKET_ID!,
+    ID.unique(),
+    file
+  );
+
+  return fileUploaded;
 };

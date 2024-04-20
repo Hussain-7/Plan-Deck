@@ -23,4 +23,17 @@ interface Image {
   fileId: string;
 }
 
+interface TaskType {
+  title?: string;
+  type?: TypedColumn;
+  description?: string;
+  image?: File;
+}
 
+
+interface TaskInput { 
+  title: string;
+  type: TypedColumn;
+  description?: string;
+  image?: File;
+}
