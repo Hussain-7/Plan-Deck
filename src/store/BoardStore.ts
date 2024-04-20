@@ -91,6 +91,7 @@ export const useBoardStore = create<BoardState>((set, get) => ({
         };
       }
     }
+    console.log("fileUploaded", file);
 
     const { $id } = await databases.createDocument(
       process.env.NEXT_PUBLIC_DATABASE_ID!,
@@ -123,7 +124,7 @@ export const useBoardStore = create<BoardState>((set, get) => ({
       } else {
         newColumns.set(type, { id: type, todos: [newTodo] });
       }
-
+      console.log("newTodo", newTodo);
       return {
         board: {
           columns: newColumns,

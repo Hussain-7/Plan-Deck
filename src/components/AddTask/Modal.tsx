@@ -12,9 +12,10 @@ function Modal() {
     state.isOpen,
     state.closeModal,
   ]);
-  const [newTaskInput, setTaskInput] = useBoardStore((state) => [
+  const [newTaskInput, setTaskInput, addTask] = useBoardStore((state) => [
     state.newTaskInput,
     state.setTaskInput,
+    state.addTask,
   ]);
 
   const handleInputChange = (
@@ -27,9 +28,16 @@ function Modal() {
   console.log("taskInput", newTaskInput);
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!newTaskInput.title) return;
-    
+    if (!newTaskInput.title || !newTaskInput.type) return;
+
     console.log("Submitting Task", newTaskInput);
+    // adding a new task to appwrite
+    addTask({
+      title: newTaskInput.title,
+      type: newTaskInput.type,
+      description: newTaskInput.description,
+      image: newTaskInput.image,
+    });
     closeModal();
   };
   return (
