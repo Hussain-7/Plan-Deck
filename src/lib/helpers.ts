@@ -86,3 +86,9 @@ export const uploadImage = async (file: File) => {
 
   return fileUploaded;
 };
+
+
+// helper function to get image url
+export const getImageUrl = (image: Image) => {
+  return storage.getFileView(image.bucketId, image.fileId);
+};

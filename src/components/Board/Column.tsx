@@ -20,8 +20,15 @@ const idToColumnText: {
 };
 
 const Column = ({ id, todos, index }: Props) => {
-  const [searchString] = useBoardStore((state) => [state.searchString]);
-  const [openModal]=useModalStore((state) => [state.openModal])
+  const [searchString, setTaskInput] = useBoardStore((state) => [
+    state.searchString,
+    state.setTaskInput,
+  ]);
+  const [openModal] = useModalStore((state) => [state.openModal]);
+  const handleOpenModal = () => {
+    setTaskInput({ type: id });
+    openModal();
+  };
   return (
     <Draggable key={id} draggableId={id} index={index}>
       {(provided, snapshop) => (
@@ -81,7 +88,10 @@ const Column = ({ id, todos, index }: Props) => {
 
                 <div className="flex items-center justify-end p-2">
                   <button className="text-green-500 hover:text-green-600">
-                    <PlusCircleIcon onClick={openModal} className="h-8 w-8" />
+                    <PlusCircleIcon
+                      onClick={handleOpenModal}
+                      className="h-8 w-8"
+                    />
                   </button>
                 </div>
               </div>
