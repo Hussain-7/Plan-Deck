@@ -43,7 +43,7 @@ const Column = ({ id, todos, index }: Props) => {
                 {...provided.droppableProps}
                 ref={provided.innerRef}
                 className={`p-2 rounded-2xl shadow-xl ${
-                  snapshop.isDraggingOver ? "bg-green-200" : "bg-gray-400/30"
+                  snapshop.isDraggingOver ? "bg-green-200" : "bg-white/40"
                 }`}
               >
                 <h2 className="flex justify-between font-bold text-xl p-2">
