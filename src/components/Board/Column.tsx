@@ -46,7 +46,7 @@ const Column = ({ id, todos, index }: Props) => {
                   snapshop.isDraggingOver ? "bg-green-200" : "bg-white/40"
                 }`}
               >
-                <h2 className="flex justify-between font-bold text-xl p-2">
+                <h2 className="flex justify-between font-bold text-lg md:text-xl p-2">
                   {idToColumnText[id]}
                   <span className="text-gray-500 rounded-full font-semibold text-xs bg-gray-200 w-6 h-6 flex items-center justify-center">
                     {searchString

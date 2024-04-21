@@ -16,13 +16,15 @@ const Suggestion = ({ suggestion, loading }: Props) => {
 			bg-white max-w-3xl text-[#2455c4] p-2 md:p-4"
       >
         <UserCircleIcon
-          className={`inline-block h-10 w-10 text-[#2455c4] mr-2
+          className={`min-h-6 min-w-6 h-10 w-10 text-[#2455c4] mr-2
           ${loading ? "animate-spin" : ""}
           `}
         />
-        {suggestion && !loading
-          ? suggestion
-          : "GPT is summarising your tasks for the day..."}
+        <div className="">
+          {suggestion && !loading
+            ? suggestion
+            : "GPT is summarising your tasks for the day..."}
+        </div>
       </p>
     </div>
   );
