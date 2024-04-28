@@ -15,23 +15,30 @@ export default async function Home() {
 
   return (
     <main className="mb-10">
-      <Header user={user} />
       {user ? (
         <>
+          <Header user={user} />
           <Suggestion />
           <Board user={user} />
         </>
       ) : (
-        <div className="w-full flex items-center justify-center  h-[calc(100vh-134px)] md:h-[calc(100vh-124px)]">
-          <div className="mx-4 w-full max-w-sm space-y-4 rounded-lg bg-white p-6 shadow-lg ">
-            <div className="space-y-2 text-center">
-              <h2 className="text-2xl font-bold">Sign In</h2>
-              <p className="text-gray-500 dark:text-gray-400">
-                To use PlanDeck
+        <div className="w-full flex items-center justify-center  h-[calc(100vh-40px)]">
+          <div className="mx-4 w-full max-w-sm space-y-4 rounded-lg bg-white p-6 shadow-lg flex flex-col gap-5">
+            <div className="space-y-2 text-center flex items-center justify-center flex-col gap-1">
+              <Image
+                src="/logo-2.png"
+                alt="logo"
+                width={633}
+                height={104}
+                className="w-48 md:w-60 pb-5 md:pb-0 object-contain"
+              />
+              <p className="text-gray-500 dark:text-gray-400 font-semibold">
+                Log in to continue
               </p>
             </div>
             <LoginLink
               className="
+              animate-pulse
                 h-[52px]
                 flex
                 items-center
