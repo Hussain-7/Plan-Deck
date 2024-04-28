@@ -12,7 +12,7 @@ const initTask: TaskType = {
 
 interface BoardState {
   board: Board;
-  getBoard: () => void;
+  getBoard: (userId: string) => void;
   setBoardState: (board: Board) => void;
   updateTodoInDB: (todo: Todo, columnId: TypedColumn) => void;
   deleteTask: (taskIndex: number, todo: Todo, id: TypedColumn) => void;
@@ -47,8 +47,8 @@ export const useBoardStore = create<BoardState>((set, get) => ({
   board: {
     columns: new Map<TypedColumn, Column>(),
   },
-  getBoard: async () => {
-    const board = await getTodosGroupedByColumn();
+  getBoard: async (userId) => {
+    const board = await getTodosGroupedByColumn(userId);
     set({ board });
   },
   setBoardState: (board) => set({ board }),

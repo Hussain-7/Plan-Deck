@@ -19,7 +19,7 @@ export default async function Home() {
       {user ? (
         <>
           <Suggestion />
-          <Board />
+          <Board user={user} />
         </>
       ) : (
         <div className="w-full flex items-center justify-center  h-[calc(100vh-134px)] md:h-[calc(100vh-124px)]">

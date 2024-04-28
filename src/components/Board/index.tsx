@@ -3,10 +3,13 @@ import { useBoardStore } from "@/store/BoardStore";
 import React, { memo, useEffect } from "react";
 import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
 import Column from "./Column";
+import { KindeUser } from "@kinde-oss/kinde-auth-nextjs/types";
 
-type Props = {};
+type Props = {
+  user: KindeUser;
+};
 
-const Board = (props: Props) => {
+const Board = ({ user }: Props) => {
   // Manage the state of board here
   const [board, getBoard, setBoardState, updateTodoInDB] = useBoardStore(
     (state) => [
@@ -17,8 +20,8 @@ const Board = (props: Props) => {
     ]
   );
   useEffect(() => {
-    getBoard();
-  }, [getBoard]);
+    getBoard(user.id);
+  }, [getBoard, user]);
   console.log("board", board);
   const handleOnDragEnd = (result: DropResult) => {
     try {

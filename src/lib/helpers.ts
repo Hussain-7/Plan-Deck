@@ -1,8 +1,10 @@
-import { databases, storage, ID } from "../config/appwrite";
-export const getTodosGroupedByColumn = async () => {
+import { databases, storage, ID, Query } from "../config/appwrite";
+export const getTodosGroupedByColumn = async (userId: string) => {
   const data = await databases.listDocuments(
     process.env.NEXT_PUBLIC_DATABASE_ID!,
-    process.env.NEXT_PUBLIC_TODOS_COLLECTION_ID!
+    process.env.NEXT_PUBLIC_TODOS_COLLECTION_ID!,
+    // where userId = userId
+    [Query.equal("userId", [userId])]
   );
 
   const columns = data.documents.reduce((acc, todo) => {
@@ -86,7 +88,6 @@ export const uploadImage = async (file: File) => {
 
   return fileUploaded;
 };
-
 
 // helper function to get image url
 export const getImageUrl = (image: Image) => {
