@@ -25,8 +25,6 @@ const Suggestion = () => {
     }
   );
 
-  // Add Logic For Gpt recommendations later
-  // Bonus
   return (
     <div className="flex items-center justify-center px-5 py-2 md:py-5 mt-5">
       <p

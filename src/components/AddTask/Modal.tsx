@@ -1,13 +1,16 @@
 "use client";
-import { useState, Fragment, useRef, FormEvent } from "react";
+import { useKindeAuth } from "@kinde-oss/kinde-auth-react";
+
+import { useState, Fragment, useRef, FormEvent, useCallback } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { useModalStore } from "@/store/ModalStore";
 import { useBoardStore } from "@/store/BoardStore";
 import TaskTypeRadioGroup from "./TaskTypeRadioGroup";
 import Image from "next/image";
 import { PhotoIcon } from "@heroicons/react/16/solid";
+import { KindeUser } from "@kinde-oss/kinde-auth-nextjs/types";
 
-function Modal() {
+function Modal({ user }: { user: KindeUser | null }) {
   const [isOpen, closeModal] = useModalStore((state) => [
     state.isOpen,
     state.closeModal,
@@ -26,20 +29,26 @@ function Modal() {
     });
   const imagePickerRef = useRef<HTMLInputElement>(null);
   console.log("taskInput", newTaskInput);
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!newTaskInput.title || !newTaskInput.type) return;
+  const handleSubmit = useCallback(
+    (e: FormEvent<HTMLFormElement>) => {
+      console.log("Submitting Task here", user);
+      e.preventDefault();
+      if (!user?.id) return;
+      if (!newTaskInput.title || !newTaskInput.type) return;
 
-    console.log("Submitting Task", newTaskInput);
-    // adding a new task to appwrite
-    addTask({
-      title: newTaskInput.title,
-      type: newTaskInput.type,
-      description: newTaskInput.description,
-      image: newTaskInput.image,
-    });
-    closeModal();
-  };
+      console.log("Submitting Task", newTaskInput);
+      // adding a new task to appwrite
+      addTask({
+        title: newTaskInput.title,
+        type: newTaskInput.type,
+        description: newTaskInput.description,
+        image: newTaskInput.image,
+        userId: user?.id,
+      });
+      closeModal();
+    },
+    [newTaskInput, user, addTask, closeModal]
+  );
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog

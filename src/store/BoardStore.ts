@@ -7,6 +7,7 @@ const initTask: TaskType = {
   type: "todo",
   description: "",
   image: undefined,
+  userId: "",
 };
 
 interface BoardState {
@@ -80,7 +81,7 @@ export const useBoardStore = create<BoardState>((set, get) => ({
     );
   },
 
-  addTask: async ({ title, type, description, image }) => {
+  addTask: async ({ title, type, description, image, userId }) => {
     let file: Image | undefined;
     if (image) {
       const fileUploaded = await uploadImage(image);
@@ -102,6 +103,7 @@ export const useBoardStore = create<BoardState>((set, get) => ({
         status: type,
         ...(description && { description }),
         ...(file && { image: JSON.stringify(file) }),
+        userId,
       }
     );
     // to clear new state input

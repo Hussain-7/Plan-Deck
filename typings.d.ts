@@ -28,6 +28,7 @@ interface TaskType {
   type?: TypedColumn;
   description?: string;
   image?: File;
+  userId?: string;
 }
 
 interface TaskInput {
@@ -35,5 +36,6 @@ interface TaskInput {
   type: TypedColumn;
   description?: string;
   image?: File;
+  userId: string;
 }
 interface User {}
