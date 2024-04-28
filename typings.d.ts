@@ -30,10 +30,10 @@ interface TaskType {
   image?: File;
 }
 
-
-interface TaskInput { 
+interface TaskInput {
   title: string;
   type: TypedColumn;
   description?: string;
   image?: File;
 }
+interface User {}

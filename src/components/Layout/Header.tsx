@@ -78,7 +78,7 @@ const Header = (props: Props) => {
             <input
               type="text"
               placeholder="Search"
-              className="flex-1 outline-none p-1 md:p-2 max-w-[100px] md:max-w-full "
+              className="flex-1 outline-none p-1 md:p-2 max-w-[120px] sm:max-w-full"
               value={value}
               onChange={handleChange}
             />

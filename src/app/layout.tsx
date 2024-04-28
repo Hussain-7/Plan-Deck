@@ -13,7 +13,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html
+      lang="en"
+      className="scrollbar-thin
+    scrollbar-thumb-gray-300 scrollbar-track-gray-100
+    scrollbar-thumb-rounded-full scrollbar-track-rounded-full"
+    >
       <Modal />
       <body className="bg-[#d6e1f6]">{children}</body>
     </html>
