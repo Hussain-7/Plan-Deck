@@ -2,7 +2,7 @@ import openai from "@/config/openai";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
-  const { todos } = await req.json();
+  const { todos, username } = await req.json();
   console.log(todos);
   // communincate with open ai
 
@@ -15,7 +15,7 @@ export async function POST(req: Request) {
       {
         role: "system",
         content:
-          "When responding, welcome the user always as Mr.Hussain and say welcome to PlanDeck!. Limit the response to 300 characters",
+          `When responding, welcome the user always as Mr.${username} and say welcome to PlanDeck!. Limit the response to 300 characters`,
       },
       {
         role: "user",

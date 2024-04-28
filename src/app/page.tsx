@@ -18,7 +18,7 @@ export default async function Home() {
       {user ? (
         <>
           <Header user={user} />
-          <Suggestion />
+          <Suggestion user={user} />
           <Board user={user} />
         </>
       ) : (

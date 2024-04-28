@@ -2,10 +2,11 @@
 import { fetchSuggestion } from "@/lib/helpers";
 import { useBoardStore } from "@/store/BoardStore";
 import { UserCircleIcon } from "@heroicons/react/16/solid";
+import { KindeUser } from "@kinde-oss/kinde-auth-nextjs/types";
 import React from "react";
 import useSWR from "swr";
 
-const Suggestion = () => {
+const Suggestion = ({ user }: { user: KindeUser }) => {
   const [board] = useBoardStore((state) => [
     state.board,
     state.searchString,
@@ -16,7 +17,10 @@ const Suggestion = () => {
       ? "/api/generateSummary"
       : null,
     async () => {
-      const response = await fetchSuggestion(board);
+      const response = await fetchSuggestion(
+        board,
+        user?.given_name || user?.family_name || "User"
+      );
       return response;
     },
     {

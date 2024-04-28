@@ -43,7 +43,7 @@ export const getTodosGroupedByColumn = async (userId: string) => {
   };
 };
 
-export const fetchSuggestion = async (board: Board) => {
+export const fetchSuggestion = async (board: Board, username: string) => {
   const todos = formatTodosForAI(board);
   console.log("Formated todos", todos);
   const response = await fetch("/api/generateSummary", {
@@ -51,7 +51,7 @@ export const fetchSuggestion = async (board: Board) => {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ todos }),
+    body: JSON.stringify({ todos, username }),
   });
   const GPTdata = await response.json();
   console.log("GPTdata", GPTdata);
