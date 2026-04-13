@@ -1,4 +1,4 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+Plan Deck is a [Next.js](https://nextjs.org/) project for a board-style task manager with a bit of AI built into the workflow.
 
 ## Getting Started
 
